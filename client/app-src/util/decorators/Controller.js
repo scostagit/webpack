@@ -9,16 +9,16 @@ export function controller(...seletores) {
 
         const constructorNovo = function () {
         
-            const instance = new constructorOriginal(...elements);
-            Object
-                .getOwnPropertyNames(constructorOriginal.prototype)
-                .forEach(property => {
-                    if (Reflect.hasMetadata('bindEvent', instance, property)) {
+            // const instance = new constructorOriginal(...elements);
+            // Object
+            //     .getOwnPropertyNames(constructorOriginal.prototype)
+            //     .forEach(property => {
+            //         if (Reflect.hasMetadata('bindEvent', instance, property)) {
                         
-                        associaEvento(instance, 
-                            Reflect.getMetadata('bindEvent', instance, property));
-                    }
-                });
+            //             associaEvento(instance, 
+            //                 Reflect.getMetadata('bindEvent', instance, property));
+            //         }
+            //     });
         }
 
         constructorNovo.prototype = constructorOriginal.prototype;

@@ -8,10 +8,10 @@ export function bindEvent(
     return function(target, propertyKey, descriptor) {
 
         
-        Reflect.defineMetadata(
-            'bindEvent', 
-            { event, selector, prevent, propertyKey }, 
-            Object.getPrototypeOf(target), propertyKey);
+        // Reflect.defineMetadata(
+        //     'bindEvent', 
+        //     { event, selector, prevent, propertyKey }, 
+        //     Object.getPrototypeOf(target), propertyKey);
             
         return descriptor;
     }
