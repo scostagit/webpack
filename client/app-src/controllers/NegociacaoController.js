@@ -1,4 +1,4 @@
-import { Negociacoes, NegociacaoService, Negociacao } from '../domain/index.js';
+import { Negociacoes, Negociacao } from '../domain/index.js';
 import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui/index.js';
 import { getNegociacaoDao, Bind, getExceptionMessage, debounce, controller, bindEvent } from '../util/index.js';
 
@@ -21,7 +21,8 @@ export class NegociacaoController {
             'texto'
         );
 
-        this._service = new NegociacaoService();
+        //esse modelo será carregado com lazy load
+        // this._service = new NegociacaoService();
 
         this._init();
     }
@@ -75,7 +76,21 @@ export class NegociacaoController {
     async importaNegociacoes() {
 
         try {
-            const negociacoes = await this._service.obtemNegociacoesDoPeriodo();
+            /** =====================================================================
+             * -- splitting && lazy loading
+             * ======================================================================
+             * Um estratégia utilizada para a resolução de problemas como esse é o code 
+             * splitting (separação de código) e o lazy loading (carregamento preguiçoso). 
+             * Em aplicação como AngularJS ou VueJS, em seus sistemas de rotas, podemos 
+             * informar que queremos carregar um módulo no momento em que for necessário.*/
+
+            //System.Import: importa o modulo dinamciamento (lazy load)
+            //Spliting: o webpack ira criar um novo modulo serapado para esse NegociacaoService (lazy loading)
+            const { NegociacaoService } = await import('../domain/negociacao/NegociacaoService'); //import assincrono sobre demanda
+            const service = new NegociacaoService();
+    
+            const negociacoes = await service.obtemNegociacoesDoPeriodo();
+
             console.log(negociacoes);
             negociacoes.filter(novaNegociacao =>
 
